@@ -19,12 +19,12 @@ public:
 
     std::string random();
 
+    std::string normalizeWord( std::string word );
+
 private:
     std::vector< std::string > words_;
     RandomIntGenerator random_;
     unsigned word_length_;
-
-    std::string normalize_word( std::string word );
 };
 
 #endif

@@ -1,5 +1,8 @@
 #include "MasterMind.hpp"
 
+std::string const MasterMind::RIGHT_GUESS{"****"};
+std::string const MasterMind::WRONG_GUESS{"    "};
+
 std::string MasterMind::checkGuess( std::string answer, std::string guess )
 {
     std::string result{"    "};

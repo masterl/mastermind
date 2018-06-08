@@ -48,7 +48,7 @@ void WordBank::add_word( std::string word )
         return;
     }
 
-    words_.emplace_back( normalize_word( word ) );
+    words_.emplace_back( normalizeWord( word ) );
 }
 
 std::string WordBank::random()
@@ -63,9 +63,9 @@ std::string WordBank::random()
     return words_[index];
 }
 
-std::string WordBank::normalize_word( std::string word )
+std::string WordBank::normalizeWord( std::string word )
 {
-    for( auto &letter : word )
+    for( char &letter : word )
     {
         letter = tolower( letter );
     }
