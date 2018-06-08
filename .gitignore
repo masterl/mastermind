@@ -1,0 +1,13 @@
+#Compiled binary
+1
+
+# Object files
+*.o
+
+# Compiled binaries
+bin/
+1
+*.bin
+
+# Object folders
+objs/
