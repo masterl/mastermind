@@ -1,34 +1,36 @@
 #include <cctype>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <vector>
 
 using namespace std;
 
-typedef std::ifstream::streampos fsize_t;
+typedef ifstream::streampos fsize_t;
+
+static string const COMPUTER_LABEL{"Computer: "};
+static string const PLAYER_LABEL{"Player: "};
 
 fsize_t filesize( string const &filename );
-int randomInteger( int const min, int const max );
+long long randomInteger( long long const min, long long const max );
 
 class WordBank
 {
 public:
     typedef unsigned long long bank_size_t;
 
-    WordBank( bank_size_t const bank_size = 0 );
+    WordBank( string const filename = "4_letter_words.txt",
+              unsigned const word_length = 4 );
 
-    bool loadFromFile( string const &filename, unsigned const word_length );
-    void addWord( string word );
-
-    string random();
-
-    string normalizeWord( string word );
+    string randomWord();
 
 private:
-    std::vector< string > words_;
+    string filename;
+    unsigned const word_length_;
+    unsigned long long words_count_;
 
-    unsigned word_length_;
+    void refreshWordsCount();
+    string loadWordFromFile( unsigned const word_index ) const;
 };
 
 class MasterMind
@@ -46,23 +48,24 @@ string toLowerCase( string str );
 
 int main()
 {
+    srand( static_cast< unsigned >( time( nullptr ) ) );
+
+    WordBank wordBank;
+    MasterMind masterMind;
+
     int guessCount = 0;
     string userInput;
     string answer;
 
-    MasterMind masterMind;
-    WordBank wordBank;
-    wordBank.loadFromFile( "4_letter_words.txt", 4 );
-    answer = wordBank.random();
-    cout << "Computer: I have a 4 letter word in mind. Can you guess it?"
-         << endl;
+    answer = wordBank.randomWord();
+    cout << COMPUTER_LABEL
+         << "I have a 4 letter word in mind. Can you guess it?" << endl;
 
     while( true )
     {
         // cout << "Answer: " << answer << endl;
-        cout << "Player: ";
-        userInput = getUserInput();
-        userInput = toLowerCase( userInput );
+        cout << PLAYER_LABEL;
+        userInput = toLowerCase( getUserInput() );
         guessCount++;
 
         string const guessResult = masterMind.checkGuess( answer, userInput );
@@ -84,9 +87,9 @@ fsize_t filesize( string const &filename )
     return file.tellg();
 }
 
-int randomInteger( int const min, int const max )
+long long randomInteger( long long const min, long long const max )
 {
-    int const range = max - min + 1;
+    long long const range = max - min + 1;
 
     return min + rand() % range;
 }
@@ -101,9 +104,9 @@ string getUserInput()
 void display( int count, string guessResult )
 {
     if( guessResult == MasterMind::RIGHT_GUESS )
-        cout << "Computer: You got it! " << count << " tries." << endl;
+        cout << COMPUTER_LABEL << "You got it! " << count << " tries." << endl;
     else if( guessResult == MasterMind::WRONG_GUESS )
-        cout << "Computer: You got nothing. Sorry." << endl;
+        cout << COMPUTER_LABEL << "You got nothing. Sorry." << endl;
     else
         cout << guessResult << endl;
 }
@@ -163,69 +166,39 @@ string MasterMind::checkGuess( string answer, string guess )
     return result;
 }
 
-WordBank::WordBank( bank_size_t bank_size )
-    : words_{bank_size}
+WordBank::WordBank( string const filename, unsigned const word_length )
+    : filename{filename}
+    , word_length_{word_length}
+    , words_count_{0}
 {
+    this->refreshWordsCount();
 }
 
-bool WordBank::loadFromFile( string const &filename,
-                             unsigned const word_length )
+void WordBank::refreshWordsCount()
 {
     std::streampos const file_size = filesize( filename );
-    unsigned long long const words_count = file_size / word_length;
 
-    this->word_length_ = word_length;
+    // +1 for \n
+    this->words_count_ = file_size / ( this->word_length_ + 1 );
+}
 
-    words_.clear();
-    words_.reserve( words_count );
-
+string WordBank::loadWordFromFile( unsigned const word_index ) const
+{
+    int const line_size = 5;
     std::ifstream file{filename};
 
-    if( !file.is_open() )
-    {
-        return false;
-    }
+    file.seekg( word_index * line_size );
 
-    for( unsigned long long i = 0; i < words_count; ++i )
-    {
-        string word;
+    std::string word;
 
-        file >> word;
-
-        this->addWord( word );
-    }
-
-    return true;
-}
-
-void WordBank::addWord( string word )
-{
-    if( word.length() != word_length_ )
-    {
-        return;
-    }
-
-    words_.emplace_back( normalizeWord( word ) );
-}
-
-string WordBank::random()
-{
-    if( words_.size() == 0 )
-    {
-        return "";
-    }
-
-    int const index = randomInteger( 0, words_.size() - 1 );
-
-    return words_[index];
-}
-
-string WordBank::normalizeWord( string word )
-{
-    for( char &letter : word )
-    {
-        letter = tolower( letter );
-    }
+    file >> word;
 
     return word;
+}
+
+string WordBank::randomWord()
+{
+    int const word_index = randomInteger( 0, words_count_ - 1 );
+
+    return toLowerCase( this->loadWordFromFile( word_index ) );
 }
