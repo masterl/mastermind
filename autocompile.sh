@@ -7,7 +7,7 @@ readonly FILE_DIR=$(dirname "$FILE_PATH")
 
 readonly EXECUTABLE="$FILE_DIR/program.bin"
 
-readonly COMPILE_COMMAND="g++ -Wall -std=c++14 $FILE_PATH -o $EXECUTABLE"
+readonly COMPILE_COMMAND="g++ -Wall -std=c++11 $FILE_PATH -o $EXECUTABLE"
 
 readonly GIT_STATUS_COMMAND="git status"
 readonly PRINT_LINE="echo \\\"==================================================\\\""
