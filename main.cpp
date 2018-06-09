@@ -43,6 +43,7 @@ public:
 };
 
 string getUserInput();
+string getUserGuess();
 void display( int count, string guessResult );
 string toLowerCase( string str );
 
@@ -64,8 +65,8 @@ int main()
     while( true )
     {
         // cout << "Answer: " << answer << endl;
-        cout << PLAYER_LABEL;
-        userInput = toLowerCase( getUserInput() );
+
+        userInput = toLowerCase( getUserGuess() );
         guessCount++;
 
         string const guessResult = masterMind.checkGuess( answer, userInput );
@@ -99,6 +100,20 @@ string getUserInput()
     string userInputStr;
     getline( cin, userInputStr );
     return userInputStr;
+}
+
+string getUserGuess()
+{
+    std::string guess;
+    int const guess_length = 4;
+
+    do
+    {
+        cout << PLAYER_LABEL << "(length: " << guess_length << "): ";
+        guess = getUserInput();
+    } while( guess.length() != guess_length );
+
+    return guess;
 }
 
 void display( int count, string guessResult )
