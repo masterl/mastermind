@@ -174,6 +174,10 @@ string MasterMind::checkGuess( string answer, string guess )
             {
                 result[i] = '-';
                 ++i;
+
+                answer[k] = MATCHED;
+                guess[m] = MATCHED;
+                break;
             }
         }
     }
