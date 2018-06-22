@@ -139,6 +139,8 @@ string const MasterMind::WRONG_GUESS{"    "};
 
 string MasterMind::checkGuess( string answer, string guess )
 {
+    char const EXACT_MATCH = '*';
+    char const DIFF_POS_MATCH = '-';
     string result{"    "};
     int i = 0;
     char const MATCHED = ' ';
@@ -147,7 +149,7 @@ string MasterMind::checkGuess( string answer, string guess )
     {
         if( answer[k] == guess[k] )
         {
-            result[i] = '*';
+            result[i] = EXACT_MATCH;
             ++i;
 
             answer[k] = MATCHED;
@@ -171,7 +173,7 @@ string MasterMind::checkGuess( string answer, string guess )
 
             if( answer[k] == guess[m] )
             {
-                result[i] = '-';
+                result[i] = DIFF_POS_MATCH;
                 ++i;
 
                 answer[k] = MATCHED;
