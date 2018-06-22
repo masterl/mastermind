@@ -53,11 +53,11 @@ int main()
     WordBank wordBank;
     MasterMind masterMind;
 
-    // Game begins
     int guessCount = 0;
     string userInput;
     string answer;
 
+    // Game begins
     answer = wordBank.randomWord();
     cout << COMPUTER_LABEL
          << "I have a 4 letter word in mind. Can you guess it?" << endl;
