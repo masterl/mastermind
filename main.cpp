@@ -53,6 +53,7 @@ int main()
     WordBank wordBank;
     MasterMind masterMind;
 
+    // Game begins
     int guessCount = 0;
     string userInput;
     string answer;
@@ -64,7 +65,6 @@ int main()
     while( true )
     {
         // cout << "Answer: " << answer << endl;
-
         userInput = toLowerCase( getUserGuess() );
         guessCount++;
 
