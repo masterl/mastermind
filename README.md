@@ -14,7 +14,7 @@ C++ implementation of the game Mastermind for Foothill College CS 2A.
     <th style="text-align:center">Meaning</th>
   </tr>
   <tr>
-    <td style="text-align:center">\*</td>
+    <td style="text-align:center">*</td>
     <td>when letters match on the same position</td>
   </tr>
   <tr>
@@ -47,12 +47,12 @@ C++ implementation of the game Mastermind for Foothill College CS 2A.
   <tr>
     <td>abby</td>
     <td>tube</td>
-    <td>\*</td>
+    <td>*</td>
   </tr>
   <tr>
     <td>case</td>
     <td>tara</td>
-    <td>\*</td>
+    <td>*</td>
   </tr>
   <tr>
     <td>case</td>
