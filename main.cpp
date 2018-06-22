@@ -11,9 +11,6 @@ typedef ifstream::streampos fsize_t;
 static string const COMPUTER_LABEL{"Computer: "};
 static string const PLAYER_LABEL{"Player: "};
 
-fsize_t filesize( string const &filename );
-long long randomInteger( long long const min, long long const max );
-
 class WordBank
 {
 public:
@@ -42,6 +39,8 @@ public:
     string checkGuess( string answer, string guess );
 };
 
+fsize_t filesize( string const &filename );
+long long randomInteger( long long const min, long long const max );
 string getUserInput();
 string getUserGuess();
 void display( int count, string guessResult );
@@ -203,7 +202,7 @@ void WordBank::refreshWordsCount()
 
 string WordBank::loadWordFromFile( unsigned const word_index ) const
 {
-    int const line_size = 5;
+    int const line_size = this->word_length_ + 1;
     std::ifstream file{filename};
 
     file.seekg( word_index * line_size );
