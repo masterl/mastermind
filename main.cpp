@@ -104,13 +104,13 @@ string getUserInput()
 string getUserGuess()
 {
     std::string guess;
-    int const guess_length = 4;
+    int const valid_guess_length = 4;
 
     do
     {
-        cout << PLAYER_LABEL << "(length: " << guess_length << "): ";
+        cout << PLAYER_LABEL << "(length: " << valid_guess_length << "): ";
         guess = getUserInput();
-    } while( guess.length() != guess_length );
+    } while( guess.length() != valid_guess_length );
 
     return guess;
 }
