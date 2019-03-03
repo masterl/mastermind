@@ -63,5 +63,5 @@ C++ implementation of the game Mastermind for Foothill College CS 2A.
 
 #### Authors:
 
-- Xinyu Wens
+- Xinyu Wen
 - Leonardo de Oliveira Lourenço
